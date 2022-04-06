@@ -44,7 +44,7 @@ and the app should build and start running (after a few minutes when gradle does
 
 ## How we'll test the solution
 
-1. We will use your scripts to deploy both services to our Kubernetes cluster.
+1. We will use your scripts to deploy both services to our Kuberenetes cluster.
 2. Run the pay endpoint on Antaeus to try and pay the invoices using your service.
 3. Fetch all the invoices from Antaeus and confirm that roughly 50% (remember, your app should randomly fail on some of the invoices) of them will have status "PAID".
 
@@ -61,14 +61,14 @@ I'm not a Kotlin coder so any changes can probably be MUCH prettier and elegant!
 
 ## Some Improvements
 ### Done
-* API Token - Super Simplsitic and Static but configurable 1:1 per deployment-
+* API Token - Super Simplistic and Static but configurable 1:1 per deployment-
 * Batch Payments - Wont fail on first error.
 * End to End Tests - Simply run ./k8s-test.sh to test all functions.
 * NetworkPolicy - Applied an Network Policy to restrict who can talk to the Payment service.
 ### Suggested
 * Depending on the number of DIFFERENT installations and environments of the services.
     * High number of deployments: I'd suggest creating a helm chart to make it more customizable.
-    * One off deployments: it's probably more maintanable to run it of GitOps with kustomizations.
+    * One off deployments: it's probably more maintainable to run it of GitOps with kustomizations.
 * To increase security;
     * it is recommenced to implement mTLS, so all internal communications are encrypted.
     * And regular TLS for endpoints.
@@ -76,9 +76,9 @@ I'm not a Kotlin coder so any changes can probably be MUCH prettier and elegant!
 * Developer security
     * Handled by repo permissions and splitting repos.
 * Monitoring
-    * Add prometheus scrape endoints to services and have them report KPIs.
+    * Add prometheus scrape endpoints to services and have them report KPIs.
 * Automation
-    * CI/CD via one of the many offerings to anutomate builds, tests and push.
+    * CI/CD via one of the many offerings to automate builds, tests and push.
 
 ## Deploy to K8s
 To use the prebuilt images and deploy to your Kuberenetes cluster.
@@ -164,11 +164,11 @@ If a portforward is active to antaeus the tests will use that regardless if a in
 Should return something similar to;
 ~~~
 ► Testing Antaeus availability...
-antaeus-6fd48d47d5-b9fdz using dfroberg/pleo-antaeus:latest image is availble on port 8000
-antaeus-service is availble on port 8000
+antaeus-6fd48d47d5-b9fdz using dfroberg/pleo-antaeus:latest image is available on port 8000
+antaeus-service is available on port 8000
 ► Testing Payment availability...
-payments-7cff684d48-p756q using dfroberg/pleo-payment:latest image is availble on port 9000
-antaeus-service is availble on port 9000
+payments-7cff684d48-p756q using dfroberg/pleo-payment:latest image is available on port 9000
+antaeus-service is available on port 9000
 ► Testing accessibility...
 ► Ingress: antaeus-ingress defined and is exposed on host antaeus.local
 ► Testing API Endpoints:

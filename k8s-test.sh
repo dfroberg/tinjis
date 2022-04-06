@@ -28,16 +28,16 @@ PAYMENT_SVC=$(kubectl -n payments get svc -l app=antaeus -o jsonpath='{.items[*]
 PAYMENT_SVC_PORT=$(kubectl get svc -n payments -o json | jq -r '.items[] | select(.metadata.name | test("payments-")).spec.ports[].targetPort')
 
 echo "► Testing Antaeus availability..."
-echo "$ANTAEUS_POD using $ANTAEUS_IMAGE image is availble on port $ANTAEUS_PORT"
-echo "$ANTAEUS_SVC is availble on port $ANTAEUS_SVC_PORT"
+echo "$ANTAEUS_POD using $ANTAEUS_IMAGE image is available on port $ANTAEUS_PORT"
+echo "$ANTAEUS_SVC is available on port $ANTAEUS_SVC_PORT"
 echo "► Testing Payment availability..."
-echo "$PAYMENT_POD using $PAYMENT_IMAGE image is availble on port $PAYMENT_PORT"
-echo "$PAYMENT_SVC is availble on port $PAYMENT_SVC_PORT"
+echo "$PAYMENT_POD using $PAYMENT_IMAGE image is available on port $PAYMENT_PORT"
+echo "$PAYMENT_SVC is available on port $PAYMENT_SVC_PORT"
 echo "► Testing accessibility..."
 #
 # If this auto detect of PF won't do it, simply uncomment the next line and comment the auto detect
 # TEST_PORTFORWARD=31811
-# 
+#
 TEST_PORTFORWARD=$(ps -aux | grep -v "grep" | grep "kubectl port-forward -n payments service/antaeus-service" | awk -F ":" '{print $3}' | awk -F " " '{print $7}')
 if [ -z "$TEST_PORTFORWARD" ]; then
     if [ -z "$ANTAEUS_INGRESS" ]; then
@@ -115,4 +115,5 @@ else
         echo " "
         echo "✔ Done"
     done
+echo "✔ All Tests Done"
 fi
