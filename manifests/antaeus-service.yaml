@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: antaeus-service
+  namespace: payments
+  labels:
+    app: antaeus
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    protocol: TCP
+  selector:
+    app: antaeus

@@ -1,0 +1,9 @@
+version: '3'
+services:
+  pleo-antaeus:
+    environment:
+      - PAYMENTS_API_TOKEN="TestToken"
+      - PAYMENT_PROVIDER_ENDPOINT="http://127.0.0.1:9000"
+    build: .
+    ports:
+     - "8000:8000"

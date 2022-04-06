@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments
+  namespace: payments
+  labels:
+    app: payments
+spec:
+  selector:
+    matchLabels:
+      app: payments
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: payments
+    spec:
+      containers:
+      - name: payments
+        image: dfroberg/pleo-payment:latest   # Use tagged version in prod
+        imagePullPolicy: Always               # Use IfNotPresent in prod
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 9000
+        env:
+        - name: PAYMENTS_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: common-payments-secret
+              key: PAYMENTS_API_TOKEN
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9000
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+          periodSeconds: 15
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9000
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+          periodSeconds: 15
+          successThreshold: 1
+          failureThreshold: 3

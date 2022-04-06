@@ -1,6 +1,23 @@
-version: '3'
+version: '3.7'
+
 services:
   pleo-antaeus:
-    build: .
+    image: dfroberg/pleo-antaeus:latest
+    build:
+      context: ./antaeus
     ports:
-     - "8000:8000"
+      - "8000:8000"
+    environment:
+      PAYMENT_PROVIDER_ENDPOINT: http://pleo-payment:9000/
+      PAYMENTS_API_TOKEN: "TestToken"
+    depends_on:
+      - pleo-payment
+
+  pleo-payment:
+    image: dfroberg/pleo-payment:latest
+    build:
+      context: ./payment
+    environment:
+      PAYMENTS_API_TOKEN: "TestToken"
+    ports:
+      - "9000:9000"

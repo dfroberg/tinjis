@@ -1,0 +1,8 @@
+version: '3'
+services:
+  pleo-payment:
+    environment:
+      - PAYMENTS_API_TOKEN="TestToken"
+    build: .
+    ports:
+     - "9000:9000"

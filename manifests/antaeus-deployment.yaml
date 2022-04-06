@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antaeus
+  namespace: payments
+  labels:
+    app: antaeus
+spec:
+  selector:
+    matchLabels:
+      app: antaeus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: antaeus
+    spec:
+      containers:
+      - name: antaeus
+        image: dfroberg/pleo-antaeus:latest  # Use tagged version in prod
+        imagePullPolicy: Always              # Use IfNotPresent in prod
+        resources:
+          limits:
+            memory: "4096Mi"
+            cpu: "2048m"
+        ports:
+        - containerPort: 8000
+        env:
+        - name: PAYMENTS_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: common-payments-secret
+              key: PAYMENTS_API_TOKEN
+        - name: PAYMENT_PROVIDER_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: antaeus-config-map
+              key: PAYMENT_PROVIDER_ENDPOINT
+        readinessProbe:
+          httpGet:
+            path: /rest/health
+            port: 8000
+          initialDelaySeconds: 180
+          timeoutSeconds: 3
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /rest/health
+            port: 8000
+          initialDelaySeconds: 180
+          timeoutSeconds: 3
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 1
