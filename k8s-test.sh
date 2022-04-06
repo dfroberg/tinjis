@@ -24,7 +24,7 @@ if [ -z "$PAYMENT_POD" ]; then
 fi
 PAYMENT_PORT=$(kubectl get pod $PAYMENT_POD -n payments --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}')
 PAYMENT_IMAGE=$(kubectl get pods -n payments -o json | jq -r '.items[] | select(.metadata.name | test("payments-")).spec.containers[].image')
-PAYMENT_SVC=$(kubectl -n payments get svc -l app=antaeus -o jsonpath='{.items[*].metadata.name}')
+PAYMENT_SVC=$(kubectl -n payments get svc -l app=payments -o jsonpath='{.items[*].metadata.name}')
 PAYMENT_SVC_PORT=$(kubectl get svc -n payments -o json | jq -r '.items[] | select(.metadata.name | test("payments-")).spec.ports[].targetPort')
 
 echo "► Testing Antaeus availability..."
