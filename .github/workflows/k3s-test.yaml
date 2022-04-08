@@ -25,6 +25,7 @@ jobs:
           cat /etc/hosts
           ip a
           ip r
+          netstat -plant
           curl -I -s hrtp://antaeus.local/rest/health && true
           # kubectl apply -f manifests/antaeus-test-service.yaml
           # Run Tests
