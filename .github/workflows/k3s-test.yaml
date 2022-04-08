@@ -17,6 +17,7 @@ jobs:
         run: |
           kubectl get nodes -owide
           ./k8s-check.sh
+          sleep 20
           ./k8s-deploy.sh
           kubectl apply -f manifests/antaeus-ingress.yaml
           # Deploy Test SVC
