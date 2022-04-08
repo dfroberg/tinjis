@@ -9,5 +9,5 @@ kubectl apply -f antaeus-deployment.yaml
 kubectl apply -f antaeus-service.yaml
 kubectl apply -f payments-deployment.yaml
 kubectl apply -f payments-service.yaml
-echo " Waiting up to 360s for antaeus to be ready..."
-kubectl wait -n payments --for condition=ready --timeout=360s pod --all
+echo " Waiting up to 1800s for antaeus to be ready..."
+kubectl wait -n payments --for condition=ready --timeout=1800s pod --all
