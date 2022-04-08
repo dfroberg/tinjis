@@ -15,3 +15,5 @@ export ANTAEUS_POD=$(kubectl -n payments get pods -l app=antaeus -o jsonpath='{.
 echo " Waiting up to 240s for antaeus to be ready..."
 kubectl wait -n payments --timeout=240s --for=condition=Ready pod --all
 kubectl describe pod -n payments $ANTAEUS_POD
+
+kubectl wait -n payments --timeout=240s --for=condition=available deployment--all
