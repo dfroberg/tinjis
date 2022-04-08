@@ -21,6 +21,7 @@ jobs:
           # Deploy Test SVC
           kubectl apply -f manifests/antaeus-test-service.yaml
           # Run Tests
+          kubectl get all -A
           ./k8s-test.sh
 
 
