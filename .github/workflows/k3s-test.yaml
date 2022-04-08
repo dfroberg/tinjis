@@ -20,7 +20,7 @@ jobs:
           ./k8s-check.sh
           ./k8s-deploy.sh
           kubectl apply -f manifests/antaeus-ingress.yaml
-          kubectl get ing -A
           kubectl apply -f manifests/antaeus-test-service.yaml
-          kubectl describe svc -n payments antaeus-test-service
+          ./k8s-test.sh
+
 

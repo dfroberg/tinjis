@@ -36,20 +36,27 @@ echo -e "  $PAYMENT_POD using $PAYMENT_IMAGE image is available on port $PAYMENT
 echo -e "  $PAYMENT_SVC is available on port $PAYMENT_SVC_PORT"
 echo -e "► Testing accessibility..."
 #
-# If this auto detect of PF won't do it, simply uncomment the next line and comment the auto detect
-# TEST_PORTFORWARD=31811
-#
-TEST_PORTFORWARD=$(ps -aux | grep -v "grep" | grep "kubectl port-forward -n payments service/antaeus-service" | awk -F ":" '{print $3}' | awk -F " " '{print $7}')
-if [ -z "$TEST_PORTFORWARD" ]; then
-    if [ -z "$ANTAEUS_INGRESS" ]; then
-        TEST_HOST=""
+# If the is deployed it's likely an automated test and has no ingress or portforward.
+ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
+if [ -z "$ATESTSVCIP" ]; then
+    #
+    # If this auto detect of PF won't do it, simply uncomment the next line and comment the auto detect
+    # TEST_PORTFORWARD=31811
+    #
+    TEST_PORTFORWARD=$(ps -aux | grep -v "grep" | grep "kubectl port-forward -n payments service/antaeus-service" | awk -F ":" '{print $3}' | awk -F " " '{print $7}')
+    if [ -z "$TEST_PORTFORWARD" ]; then
+        if [ -z "$ANTAEUS_INGRESS" ]; then
+            TEST_HOST=""
+        else
+            echo -e "► Ingress: $ANTAEUS_INGRESS defined and is exposed on host $ANTAEUS_INGRESS_HOST"
+            ANTAEUS_INGRESS_HOST=$(kubectl -n payments get ingress -l app=antaeus -o json | jq -r '.items[] | select(.metadata.name | test("antaeus-")).spec.rules[].host')
+            TEST_HOST="$ANTAEUS_INGRESS_HOST"
+        fi
     else
-        echo -e "► Ingress: $ANTAEUS_INGRESS defined and is exposed on host $ANTAEUS_INGRESS_HOST"
-        ANTAEUS_INGRESS_HOST=$(kubectl -n payments get ingress -l app=antaeus -o json | jq -r '.items[] | select(.metadata.name | test("antaeus-")).spec.rules[].host')
-        TEST_HOST="$ANTAEUS_INGRESS_HOST"
+        TEST_HOST="localhost:$TEST_PORTFORWARD"
     fi
 else
-    TEST_HOST="localhost:$TEST_PORTFORWARD"
+    TEST_HOST=$ATESTSVCIP
 fi
 echo -e "  $TEST_HOST"
 
