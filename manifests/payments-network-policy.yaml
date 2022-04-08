@@ -1,7 +1,33 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: default-deny
+  namespace: payments
+spec:
+  podSelector:
+    matchLabels: {}
+---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: payments-network-policy
+  name: allow-everyone-access-to-antaeus
+  namespace: payments
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app: antaeus
+  ingress:
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-antaeus-access-to-payments
   namespace: payments
 spec:
   podSelector:
@@ -10,11 +36,10 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    - from:
-      - podSelector:
-          matchLabels:
-            app: antaeus
-      ports:
-      - protocol: TCP
-        port: 9000
-
+  - from:
+    - podSelector:
+        matchLabels:
+          app: antaeus
+    ports:
+    - protocol: TCP
+      port: 9000
