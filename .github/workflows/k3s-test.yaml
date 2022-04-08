@@ -21,7 +21,8 @@ jobs:
           ./k8s-deploy.sh
           kubectl apply -f manifests/antaeus-ingress.yaml
           # Deploy Test SVC
-          kubectl apply -f manifests/antaeus-test-service.yaml
+          echo "172.17.0.2 antaeus.local" >> /etc/hosts 
+          # kubectl apply -f manifests/antaeus-test-service.yaml
           # Run Tests
           kubectl get all -A
           kubectl get ing -A
