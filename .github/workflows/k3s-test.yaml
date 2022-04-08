@@ -1,0 +1,16 @@
+name: Matrix Testing
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8s_version: [latest,v1.21.2-k3s1]
+    steps:
+    - uses: debianmaster/actions-k3s@master
+      id: k3s
+      with:
+        version: ${{ matrix.k8s_version }}
+    - name: Test on k3s
+      run: |
+        kubectl get nodes
