@@ -10,7 +10,7 @@ kubectl apply -f antaeus-service.yaml
 kubectl apply -f payments-deployment.yaml
 kubectl apply -f payments-service.yaml
 
-export ANTAEUS_POD=$(kubectl -n payments get pods --field-selector status.phase=Running -l app=antaeus -o jsonpath='{.items[*].metadata.name}')
+export ANTAEUS_POD=$(kubectl -n payments get pods -l app=antaeus -o jsonpath='{.items[*].metadata.name}')
 
 echo " Waiting up to 60s for antaeus to be ready..."
 kubectl wait -n payments --for condition=ready --timeout=60s pod --all
