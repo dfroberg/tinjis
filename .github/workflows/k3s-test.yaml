@@ -16,5 +16,8 @@ jobs:
       - name: Test on k3s
         run: |
           kubectl get nodes -owide
-          kubectl get ing
+          kubectl get ing -A
           ./k8s-check.sh
+          ./k8s-deploy.sh
+          kubectl apply -f manifests/antaeus-ingress.yaml
+          kubectl get ing -A
