@@ -15,6 +15,6 @@ jobs:
           version: ${{ matrix.k8s_version }}
       - name: Test on k3s
         run: |
-          kubectl get nodes
+          kubectl get nodes -owide
+          kubectl get ing
           ./k8s-check.sh
-          ip a
