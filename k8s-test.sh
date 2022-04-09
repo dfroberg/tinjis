@@ -45,6 +45,7 @@ echo -e "► Testing Payment availability..."
 echo -e "  $PAYMENT_POD using $PAYMENT_IMAGE image is available on port $PAYMENT_PORT"
 echo -e "  $PAYMENT_SVC is available on port $PAYMENT_SVC_PORT"
 echo -e "► Testing accessibility..."
+# Check for Javalin has started
 kubectl logs -n payments $ANTAEUS_POD
 #
 # If the is deployed it's likely an automated test and has no ingress or portforward.
@@ -167,6 +168,7 @@ else
         done
         echo -e "✔ Done"
     done
+    kubectl logs -n payments $ANTAEUS_POD
     echo -e "✔ All Tests Done"
     rm $TMPF
     if [ $NOTICE -gt 0 ]; then
