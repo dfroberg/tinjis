@@ -65,6 +65,10 @@ I'm not a Kotlin coder so any changes can probably be MUCH prettier and elegant!
 * Batch Payments - Wont fail on first error.
 * End to End Tests - Simply run ./k8s-test.sh to test all functions.
 * NetworkPolicy - Applied an Network Policy to restrict who can talk to the Payment service.
+* Github Action
+    * Runs end to end test by creating a one node k3s cluster, deploying the manifests and running the tests.
+    * Rudimentary docker image build and push action.
+
 ### Suggested
 * Depending on the number of DIFFERENT installations and environments of the services.
     * High number of deployments: I'd suggest creating a helm chart to make it more customizable.
