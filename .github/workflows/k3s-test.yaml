@@ -26,16 +26,11 @@ jobs:
           #sleep 60
           #kubectl get ing -n payments -oyaml antaeus-ingress
           echo "$IPA antaeus.local" | sudo tee -a /etc/hosts 
-          #cat /etc/hosts
-          #ip a
-          #ip r
-          #netstat -plant
           #curl -I -s http://antaeus.local/rest/health && true
           curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/health && true
           curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/v1/invoices && true
           # Run Tests
-          # kubectl get all -n payments 
-          # kubectl get ing -n payments 
+          kubectl patch svc antaeus-test-service -n payments -p '{"spec":{"externalTrafficPolicy":"Local"}}'
           ./k8s-test.sh
 
 
