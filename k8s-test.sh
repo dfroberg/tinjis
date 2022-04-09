@@ -7,6 +7,7 @@ TEST_PATHS=$(cat <<'EOT'
 /rest/v1/invoices/1
 EOT
 )
+TMP="/tmp/content.txt"
 NOTICE=0
 echo -e "► Testing Antaeus availability..."
 ANTAEUS_POD=$(kubectl -n payments get pods --field-selector status.phase=Running -l app=antaeus -o jsonpath='{.items[*].metadata.name}')
@@ -78,8 +79,8 @@ else
     do
         TEST_URL="http://$TEST_HOST$p"
         echo -e -n "► Testing $TEST_URL ..."
-        HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >content.txt) $TEST_URL )
-        CONTENT=$(cat content.txt)
+        HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL )
+        CONTENT=$(cat $TMP)
         if [ $HTTP_STATUS -gt 200 ]
         then
             echo -e " X Failed"
@@ -97,8 +98,8 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >content.txt) $TEST_URL))
-            CONTENT=$(cat content.txt)
+            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL))
+            CONTENT=$(cat $TMP)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
@@ -117,8 +118,8 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >content.txt) $TEST_URL))
-            CONTENT=$(cat content.txt)
+            $(HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL))
+            CONTENT=$(cat $TMP)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
@@ -142,8 +143,8 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >content.txt) $TEST_URL))
-            CONTENT=$(cat content.txt)
+            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL))
+            CONTENT=$(cat $TMP)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
