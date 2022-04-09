@@ -53,12 +53,11 @@ echo -e "► Testing accessibility..."
 if [ -z "$IPA" ]; then
     ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
 else
-    ATESTSVCIP="$IPA"
     NODEPORT=$(kubectl get -n payments -o jsonpath="{.spec.ports[0].nodePort}" services antaeus-test-service)
     NODES=$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }')
-    echo $NODES 
+    ATESTSVCIP="$NODES"
     ANTAEUS_SVC_PORT=$NODEPORT
-    for node in $NODES; do curl -s $node:$NODEPORT | grep -i client_address; done
+    for node in $NODES; do echo $node:$NODEPORT | grep -i client_address; done
 fi
 if [ -z "$ATESTSVCIP" ]; then
     #
