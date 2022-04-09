@@ -21,7 +21,7 @@ jobs:
           kubectl apply -f manifests/antaeus-ingress.yaml
           # Deploy Test SVC
           IPA=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
- 
+          kubectl get ing -n payments -oyaml antaeus-ingress
           sleep 60
           echo "$IPA antaeus.local" | sudo tee -a /etc/hosts 
           cat /etc/hosts
