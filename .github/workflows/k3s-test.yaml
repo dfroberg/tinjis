@@ -1,6 +1,6 @@
 name: Matrix Testing
 on: 
-  push
+  push:
     branches:
       - 'master'
     paths:
