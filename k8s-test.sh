@@ -95,7 +95,7 @@ else
         TEST_URL="http://$TEST_HOST$p"
         echo -e -n "► Testing $TEST_URL ..."
         HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL )
-        cat ${TMPF}
+        sleep 2
         CONTENT=$(cat $TMPF)
         if [ $HTTP_STATUS -gt 200 ]
         then
@@ -115,6 +115,7 @@ else
         for i in {1..1}
         do
             HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
+            sleep 2
             CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
@@ -139,6 +140,7 @@ else
         for i in {1..1}
         do
             HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
+            sleep 2
             CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
@@ -168,6 +170,7 @@ else
         for i in {1..1}
         do
             HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
+            sleep 2
             CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
