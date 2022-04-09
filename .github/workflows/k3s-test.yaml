@@ -21,8 +21,8 @@ jobs:
           kubectl apply -f manifests/antaeus-ingress.yaml
           # Deploy Test SVC
           export IPA=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
-          kubectl get ing -n payments -oyaml antaeus-ingress
-          kubectl apply -f manifests/antaeus-test-service.yaml
+          #kubectl get ing -n payments -oyaml antaeus-ingress
+          #kubectl apply -f manifests/antaeus-test-service.yaml
           sleep 60
           #kubectl get ing -n payments -oyaml antaeus-ingress
           echo "$IPA antaeus.local" | sudo tee -a /etc/hosts 
@@ -31,11 +31,11 @@ jobs:
           #ip r
           #netstat -plant
           #curl -I -s http://antaeus.local/rest/health && true
-          curl -I -s -H "Host: antaeus.local" http://$IPA:8000/rest/health && true
-          
+          curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/health && true
+          curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/v1/invoices && true
           # Run Tests
-          kubectl get all -n payments 
-          kubectl get ing -n payments 
+          # kubectl get all -n payments 
+          # kubectl get ing -n payments 
           ./k8s-test.sh
 
 
