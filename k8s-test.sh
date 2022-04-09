@@ -88,8 +88,8 @@ else
     do
         TEST_URL="http://$TEST_HOST$p"
         echo -e -n "► Testing $TEST_URL ..."
-        HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL )
-        CONTENT=$(cat $TMPF)
+        HTTP_STATUS=$(curl -s -w "%{http_code}" -o ${TMPF} $TEST_URL )
+        CONTENT=$(cat ${TMPF})
         if [ $HTTP_STATUS -gt 200 ]
         then
             echo -e " X Failed"
