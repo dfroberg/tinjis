@@ -1,3 +1,7 @@
+[![k3s Matrix Testing](https://github.com/dfroberg/tinjis/actions/workflows/k3s-test.yaml/badge.svg)](https://github.com/dfroberg/tinjis/actions/workflows/k3s-test.yaml)
+
+[![ci](https://github.com/dfroberg/tinjis/actions/workflows/dockerbuild.yaml/badge.svg)](https://github.com/dfroberg/tinjis/actions/workflows/dockerbuild.yaml)
+
 # Preface
 
 We're really happy that you're considering to join us! Here's a challenge that will help us understand your skills and serve as a starting discussion point for the interview.
