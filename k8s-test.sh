@@ -71,7 +71,7 @@ if [ -z "$ATESTSVCIP" ]; then
         TEST_HOST="localhost:$TEST_PORTFORWARD"
     fi
 else
-    TEST_HOST="$ATESTSVCIP:8000"
+    TEST_HOST="$ATESTSVCIP:$ANTAEUS_SVC_PORT"
 fi
 echo -e "  $TEST_HOST"
 
@@ -89,6 +89,7 @@ else
         TEST_URL="http://$TEST_HOST$p"
         echo -e -n "► Testing $TEST_URL ..."
         HTTP_STATUS=$(curl -s -w "%{http_code}" -o ${TMPF} $TEST_URL )
+        cat ${TMPF}
         CONTENT=$(cat ${TMPF})
         if [ $HTTP_STATUS -gt 200 ]
         then
