@@ -41,7 +41,7 @@ echo -e "► Testing accessibility..."
 if [ -z "$IPA" ]; then
     ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
 else
-    ATESTSVCIP=$IPA
+    ATESTSVCIP="$IPA"
 fi
 if [ -z "$ATESTSVCIP" ]; then
     #
@@ -61,7 +61,7 @@ if [ -z "$ATESTSVCIP" ]; then
         TEST_HOST="localhost:$TEST_PORTFORWARD"
     fi
 else
-    TEST_HOST=$ATESTSVCIP
+    TEST_HOST="$ATESTSVCIP:8000"
 fi
 echo -e "  $TEST_HOST"
 
