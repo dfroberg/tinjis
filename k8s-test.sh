@@ -49,13 +49,15 @@ echo -e "► Testing accessibility..."
 #kubectl logs -n payments $ANTAEUS_POD
 #
 # If the is deployed it's likely an automated test and has no ingress or portforward.
-NODEPORT=$(kubectl get -n payments -o jsonpath="{.spec.ports[0].nodePort}" services antaeus-test-service)
-NODES=$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }')
-ANTAEUS_SVC_PORT=$NODEPORT
+
 if [ -z "$IPA" ]; then
     ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
 else
     ATESTSVCIP="$IPA"
+    NODEPORT=$(kubectl get -n payments -o jsonpath="{.spec.ports[0].nodePort}" services antaeus-test-service)
+    NODES=$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }')
+    ANTAEUS_SVC_PORT=$NODEPORT
+    for node in $NODES; do curl -s $node:$NODEPORT | grep -i client_address;
 fi
 if [ -z "$ATESTSVCIP" ]; then
     #
