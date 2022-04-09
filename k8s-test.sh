@@ -49,7 +49,7 @@ echo -e "► Testing accessibility..."
 kubectl logs -n payments $ANTAEUS_POD
 #
 # If the is deployed it's likely an automated test and has no ingress or portforward.
-IPA=172.17.0.2
+IPA=172.17.0.1
 if [ -z "$IPA" ]; then
     ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
 else
