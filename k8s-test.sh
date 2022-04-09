@@ -57,7 +57,7 @@ else
     NODEPORT=$(kubectl get -n payments -o jsonpath="{.spec.ports[0].nodePort}" services antaeus-test-service)
     NODES=$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }')
     ANTAEUS_SVC_PORT=$NODEPORT
-    for node in $NODES; do curl -s $node:$NODEPORT | grep -i client_address;
+    for node in $NODES; do curl -s $node:$NODEPORT | grep -i client_address; done
 fi
 if [ -z "$ATESTSVCIP" ]; then
     #
