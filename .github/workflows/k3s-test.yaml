@@ -1,5 +1,11 @@
 name: Matrix Testing
 on: push
+    branches:
+      - 'master'
+    paths:
+      - 'payment/**/*'
+      - 'antaeus/**/*'
+      - 'manifests/**/*'
 jobs:
   build:
     runs-on: ubuntu-latest
