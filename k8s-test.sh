@@ -37,7 +37,12 @@ echo -e "  $PAYMENT_SVC is available on port $PAYMENT_SVC_PORT"
 echo -e "► Testing accessibility..."
 #
 # If the is deployed it's likely an automated test and has no ingress or portforward.
-ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
+
+if [ -z "$IPA" ]; then
+    ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
+else
+    ATESTSVCIP=$IPA
+fi
 if [ -z "$ATESTSVCIP" ]; then
     #
     # If this auto detect of PF won't do it, simply uncomment the next line and comment the auto detect
