@@ -114,14 +114,18 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL))
+            HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
             CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
             else
-                echo -e " ✔ Passed"
-                echo -e "---\n$(echo $CONTENT | jq '.[].status' | sort | uniq -c | awk -F " " '{print "{\"status\":" $2 ",\"count\":" $1"}"}'| jq .)\n---\n"
+                if [ "$CONTENT" == "" ]; then
+                    echo -e " x Reachable but empty reply"
+                else
+                    echo -e " ✔ Passed"
+                    echo -e "---\n$(echo $CONTENT | jq '.[].status' | sort | uniq -c | awk -F " " '{print "{\"status\":" $2 ",\"count\":" $1"}"}'| jq .)\n---\n"
+                fi
             fi
 
         done
@@ -134,18 +138,22 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL))
+            HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
             CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
             else
-                echo -e " ✔ Passed"
-                if [ $CONTENT == "true" ]; then
-                    echo -e "  Returned $CONTENT, Successfuly paid all invoices"
-                    NOTICE=1
+                if [ "$CONTENT" == "" ]; then
+                    echo -e " x Reachable but empty reply"
                 else
-                    echo -e "  Returned $CONTENT, Not all invoices paid successfuly"
+                    echo -e " ✔ Passed"
+                    if [ "$CONTENT" == "true" ]; then
+                        echo -e "  Returned $CONTENT, Successfuly paid all invoices"
+                        NOTICE=1
+                    else
+                         echo -e "  Returned $CONTENT, Not all invoices paid successfuly"
+                    fi
                 fi
             fi
         done
@@ -159,14 +167,18 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL))
+            HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
             CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
             else
-                echo -e " ✔ Passed"
-                echo -e "---\n$(echo $CONTENT | jq '.[].status' | sort | uniq -c | awk -F " " '{print "{\"status\":" $2 ",\"count\":" $1"}"}'| jq .)\n---\n"
+                if [ "$CONTENT" == "" ]; then
+                    echo -e " x Reachable but empty reply"
+                else
+                    echo -e " ✔ Passed"
+                    echo -e "---\n$(echo $CONTENT | jq '.[].status' | sort | uniq -c | awk -F " " '{print "{\"status\":" $2 ",\"count\":" $1"}"}'| jq .)\n---\n"
+                fi
             fi
 
         done
