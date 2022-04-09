@@ -28,7 +28,8 @@ jobs:
           ip a
           ip r
           netstat -plant
-          curl -I -s hrtp://antaeus.local/rest/health && true
+          curl -I -s http://antaeus.local/rest/health && true
+          curl -I -s -H "Host: antaeus.local" http://127.0.0.1/rest/health && true
           # kubectl apply -f manifests/antaeus-test-service.yaml
           # Run Tests
           kubectl get all -n payments 
