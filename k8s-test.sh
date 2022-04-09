@@ -94,9 +94,9 @@ else
     do
         TEST_URL="http://$TEST_HOST$p"
         echo -e -n "► Testing $TEST_URL ..."
-        HTTP_STATUS=$(curl -s -w "%{http_code}" -o ${TMPF} $TEST_URL )
+        HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL )
         cat ${TMPF}
-        CONTENT=$(cat ${TMPF})
+        CONTENT=$(cat $TMPF)
         if [ $HTTP_STATUS -gt 200 ]
         then
             echo -e " X Failed"
@@ -111,7 +111,7 @@ else
     for p in "/rest/v1/invoices"
     do
         TEST_URL="http://$TEST_HOST$p"
-        echo -e -n "► Calling $TEST_URL ..."
+        echo -e "► Calling $TEST_URL ..."
         for i in {1..1}
         do
             HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
@@ -135,7 +135,7 @@ else
     for p in "/rest/v1/invoices/pay"
     do
         TEST_URL="http://$TEST_HOST$p"
-        echo -e -n "► Calling $TEST_URL ..."
+        echo -e "► Calling $TEST_URL ..."
         for i in {1..1}
         do
             HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
@@ -164,7 +164,7 @@ else
     for p in "/rest/v1/invoices"
     do
         TEST_URL="http://$TEST_HOST$p"
-        echo -e -n "► Calling $TEST_URL ..."
+        echo -e "► Calling $TEST_URL ..."
         for i in {1..1}
         do
             HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL)
