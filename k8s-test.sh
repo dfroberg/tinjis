@@ -45,6 +45,7 @@ echo -e "► Testing Payment availability..."
 echo -e "  $PAYMENT_POD using $PAYMENT_IMAGE image is available on port $PAYMENT_PORT"
 echo -e "  $PAYMENT_SVC is available on port $PAYMENT_SVC_PORT"
 echo -e "► Testing accessibility..."
+kubectl logs -n payments pod $ANTAEUS_POD
 #
 # If the is deployed it's likely an automated test and has no ingress or portforward.
 
