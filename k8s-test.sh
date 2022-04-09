@@ -46,10 +46,12 @@ echo -e "  $PAYMENT_POD using $PAYMENT_IMAGE image is available on port $PAYMENT
 echo -e "  $PAYMENT_SVC is available on port $PAYMENT_SVC_PORT"
 echo -e "► Testing accessibility..."
 # Check for Javalin has started
-kubectl logs -n payments $ANTAEUS_POD
+#kubectl logs -n payments $ANTAEUS_POD
 #
 # If the is deployed it's likely an automated test and has no ingress or portforward.
-IPA=172.17.0.1
+NODEPORT=$(kubectl get -n payments -o jsonpath="{.spec.ports[0].nodePort}" services antaeus-test-service)
+NODES=$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }')
+ANTAEUS_SVC_PORT=$NODEPORT
 if [ -z "$IPA" ]; then
     ATESTSVCIP=$(kubectl -n payments get svc antaeus-test-service -o jsonpath='{.spec.clusterIP}')
 else
