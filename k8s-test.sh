@@ -7,7 +7,16 @@ TEST_PATHS=$(cat <<'EOT'
 /rest/v1/invoices/1
 EOT
 )
-TMP="/tmp/content.txt"
+TMPF="/tmp/content.txt"
+touch $TMPF 
+
+if test -f "$TMPF"; then
+    echo "$TMPF exists."
+else
+    echo "Can't create buffer file $TMPF skipping tests."
+    exit 0
+fi
+
 NOTICE=0
 echo -e "► Testing Antaeus availability..."
 ANTAEUS_POD=$(kubectl -n payments get pods --field-selector status.phase=Running -l app=antaeus -o jsonpath='{.items[*].metadata.name}')
@@ -79,8 +88,8 @@ else
     do
         TEST_URL="http://$TEST_HOST$p"
         echo -e -n "► Testing $TEST_URL ..."
-        HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL )
-        CONTENT=$(cat $TMP)
+        HTTP_STATUS=$(curl -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL )
+        CONTENT=$(cat $TMPF)
         if [ $HTTP_STATUS -gt 200 ]
         then
             echo -e " X Failed"
@@ -98,8 +107,8 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL))
-            CONTENT=$(cat $TMP)
+            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL))
+            CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
@@ -118,8 +127,8 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL))
-            CONTENT=$(cat $TMP)
+            $(HTTP_STATUS=$(curl -X POST -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL))
+            CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
@@ -143,8 +152,8 @@ else
         echo -e -n "► Calling $TEST_URL ..."
         for i in {1..1}
         do
-            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMP) $TEST_URL))
-            CONTENT=$(cat $TMP)
+            $(HTTP_STATUS=$(curl -X GET -s -w "%{http_code}" -o >(cat >$TMPF) $TEST_URL))
+            CONTENT=$(cat $TMPF)
             if [ $HTTP_STATUS -gt 200 ]; then
                 echo -e "X Failed testing, Got Code $HTTP_STATUS "
                 exit 1
@@ -157,7 +166,7 @@ else
         echo -e "✔ Done"
     done
     echo -e "✔ All Tests Done"
-    rm content.txt
+    rm $TMPF
     if [ $NOTICE -gt 0 ]; then
         echo -e "\n*** NOTICE: ***"
         echo "It seems all invoices now have the status PAID, restart the ANTAEUS_POD if you wish to retry the test."
