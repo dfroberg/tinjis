@@ -1,12 +1,6 @@
 name: ci
 
 on:
-  workflow_call:
-    branches:
-      - 'master'
-    paths:
-      - 'payment/**/*'
-      - 'antaeus/**/*'
   push:
     branches:
       - 'master'
