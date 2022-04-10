@@ -1,6 +1,6 @@
 #!/bin/bash
 PROJECTDIR=$(git rev-parse --show-toplevel)
-cd $PROJECTDIR/manifests
+cd $PROJECTDIR/manifests || exit
 kubectl apply -f payments-namespace.yaml
 kubectl apply -f payments-network-policy.yaml
 kubectl apply -f common-secrets.yaml
