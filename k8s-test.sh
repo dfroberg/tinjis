@@ -159,7 +159,6 @@ else
                 fi
             fi
         done
-        echo -e " "
         echo -e "✔ Done"
     done
     echo -e -n "► Testing Payments: Show distribution of INVOICE_STATUS"
