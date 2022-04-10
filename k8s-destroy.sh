@@ -1,6 +1,6 @@
 #!/bin/bash
 PROJECTDIR=$(git rev-parse --show-toplevel)
-cd $PROJECTDIR/manifests
+cd $PROJECTDIR/manifests || exit
 kubectl delete -f antaeus-deployment.yaml
 kubectl delete -f payments-deployment.yaml
 kubectl delete -f antaeus-service.yaml
