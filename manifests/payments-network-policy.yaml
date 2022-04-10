@@ -12,6 +12,8 @@ kind: NetworkPolicy
 metadata:
   name: allow-everyone-access-to-antaeus
   namespace: payments
+  labels:
+    app: antaeus 
 spec:
   policyTypes:
     - Ingress
@@ -29,6 +31,8 @@ kind: NetworkPolicy
 metadata:
   name: allow-antaeus-access-to-payments
   namespace: payments
+  labels:
+    app: antaeus 
 spec:
   podSelector:
     matchLabels:
