@@ -1,14 +1,14 @@
 name: Matrix Testing
-on: 
-  push:
-    branches:
-      - 'master'
-    paths:
-      - 'payment/**/*'
-      - 'antaeus/**/*'
-      - 'manifests/**/*'
+on:
+      workflow_dispatch:
+      workflow_run:
+        workflows: ["ci"]
+        types:
+          - completed
+
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
