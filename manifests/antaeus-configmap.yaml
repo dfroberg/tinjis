@@ -3,5 +3,7 @@ kind: ConfigMap
 metadata:
   name: antaeus-config-map
   namespace: payments
+  labels:
+    app: antaeus
 data:
   PAYMENT_PROVIDER_ENDPOINT: http://payments-service.payments.svc.cluster.local:9000
