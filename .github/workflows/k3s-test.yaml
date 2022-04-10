@@ -2,7 +2,7 @@ name: Matrix Testing
 on:
       workflow_dispatch:
       workflow_run:
-        workflows: ["ci"]
+        workflows: ["ci", "Manifest Validation"]
         types:
           - completed
 
