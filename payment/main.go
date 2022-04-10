@@ -98,6 +98,7 @@ func (a *App) processPaymentRequest(w http.ResponseWriter, r *http.Request) {
 		respondWithJSON(w, http.StatusBadRequest, map[string]string{"result": "false", "error": "Invalid Request. Missing or faulty fields"})
 		return
 	}
+	rand.Seed(time.Now().UnixNano())
 	success := rand.Intn(2)
 	if success == 0 {
 		respondWithJSON(w, http.StatusOK, map[string]string{"result": "true"})
