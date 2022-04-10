@@ -1,6 +1,6 @@
 [![k3s Matrix Testing](https://github.com/dfroberg/tinjis/actions/workflows/k3s-test.yaml/badge.svg)](https://github.com/dfroberg/tinjis/actions/workflows/k3s-test.yaml)
-
 [![ci](https://github.com/dfroberg/tinjis/actions/workflows/dockerbuild.yaml/badge.svg)](https://github.com/dfroberg/tinjis/actions/workflows/dockerbuild.yaml)
+[![Manifest Validation](https://github.com/dfroberg/tinjis/actions/workflows/manifests-validation.yaml/badge.svg)](https://github.com/dfroberg/tinjis/actions/workflows/manifests-validation.yaml)
 
 # Preface
 
