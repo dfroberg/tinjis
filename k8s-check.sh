@@ -1,6 +1,6 @@
 #!/bin/bash
 PROJECTDIR=$(git rev-parse --show-toplevel)
-cd $PROJECTDIR/manifests || exit
+cd "$PROJECTDIR"/manifests || exit
 kubectl apply --dry-run=client -f payments-namespace.yaml
 kubectl apply --dry-run=client -f payments-network-policy.yaml
 kubectl apply --dry-run=client -f common-secrets.yaml
