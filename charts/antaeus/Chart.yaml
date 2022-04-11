@@ -2,7 +2,8 @@
 apiVersion: v2
 name: antaeus
 description: |
-  Antaeus helm chart is an SRE challenge microservice.
+  Antaeus helm chart is the solution for the Pleo SRE challenge and 
+  contains a microservice with an payment provider.
 
 home: https://github.com/dfroberg/tinjis
 icon: https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png
@@ -16,7 +17,7 @@ type: application
 # This is the chart version. This version number should be incremented each time
 # you make changes to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.0
+version: 0.1.1
 
 # This is the version number of the application being deployed. This version
 # number should be incremented each time you make changes to the application.
