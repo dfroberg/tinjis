@@ -16,7 +16,18 @@ helm search repo antaeus
 ~~~
 How to install it;
 ~~~
-helm install
+helm upgrade antaeus antaeus \
+      --install \
+      --namespace test-antaeus \
+      --create-namespace \
+      --wait \
+      --set antaeus.image.tag=latest \
+      --set antaeus.ingress.enabled=true \
+      --set antaeus.ingress.domain.prefix=test \
+      --set antaeus.ingress.domain.base=antaeus.local \
+      --set antaeus.testService.enabled=true \
+      --set payment.networkPolicy.enabled=true \
+
 ~~~
 
 **Homepage:** <https://github.com/dfroberg/tinjis>
@@ -35,25 +46,14 @@ helm install
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| common.paymentsApiToken | string | `"TestToken"` |  |
-| antaeus.namespace | string | `"payments"` | The namespace to deploy all charts into |
-| antaeus.image.repository | string | `"dfroberg/pleo-antaeus"` |  |
-| antaeus.image.tag | string | `"latest"` |  |
-| antaeus.image.pullPolicy | string | `"Always"` |  |
+| common | object | `{"paymentsApiToken":"TestToken"}` | Common values for all services |
+| common.paymentsApiToken | string | `"TestToken"` | This is optional, will be pupulated by a random string if not defined or already present in a secret. |
+| antaeus | object | `{"env":{"TZ":"Europe/Stockholm"},"image":{"pullPolicy":"Always","repository":"dfroberg/pleo-antaeus","tag":"latest"},"ingress":{"annotations":{},"domain":{"base":"antaeus.local","prefix":"","suffix":""},"enabled":true,"ingressClassName":"traefik","labels":{}},"resources":{"limits":{"memory":"4096Mi"},"requests":{"cpu":"1024m","memory":"4096Mi"}},"testService":{"enabled":true}}` | Values for antaeus service |
 | antaeus.env | object | `{"TZ":"Europe/Stockholm"}` | Environment vars to set |
-| antaeus.ingress.enabled | bool | `true` |  |
-| antaeus.ingress.annotations | object | `{}` |  |
-| antaeus.ingress.labels | object | `{}` |  |
-| antaeus.ingress.ingressClassName | string | `"traefik"` |  |
-| antaeus.ingress.domain.base | string | `"antaeus.local"` |  |
-| antaeus.ingress.domain.prefix | string | `""` |  |
-| antaeus.ingress.domain.suffix | string | `""` |  |
-| antaeus.testservice | object | `{"enabled":true}` | Enable if you wish to deploy a NodePort test service |
+| antaeus.testService.enabled | bool | `true` | Enable if you wish to deploy a NodePort test service |
 | antaeus.resources | object | `{"limits":{"memory":"4096Mi"},"requests":{"cpu":"1024m","memory":"4096Mi"}}` | Resource limits |
-| payment.image.repository | string | `"dfroberg/pleo-payment"` |  |
-| payment.image.tag | string | `"latest"` |  |
-| payment.image.pullPolicy | string | `"Always"` |  |
+| payment | object | `{"env":{"TZ":"Europe/Stockholm"},"image":{"pullPolicy":"Always","repository":"dfroberg/pleo-payment","tag":"latest"},"networkPolicy":{"enabled":true},"resources":{"limits":{"cpu":"250m","memory":"64Mi"}}}` | Values for payment service |
 | payment.env | object | `{"TZ":"Europe/Stockholm"}` | Environment vars to set |
-| payment.networkPolicy | object | `{"enabled":true}` | Allow communication to this service ONLY from antaeus |
+| payment.networkPolicy.enabled | bool | `true` | Allow communication to this service ONLY from antaeus |
 | payment.resources | object | `{"limits":{"cpu":"250m","memory":"64Mi"}}` | Resource limits |
 
