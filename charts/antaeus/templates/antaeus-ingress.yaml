@@ -19,7 +19,7 @@ metadata:
 spec:
   ingressClassName: {{ .Values.antaeus.ingress.ingressClassName }}
   rules:
-    - host: {{ .Values.antaeus.ingress.host }}
+    - host: {{ include "ingress.hostName" . }}
       http:
         paths:
           - path: /

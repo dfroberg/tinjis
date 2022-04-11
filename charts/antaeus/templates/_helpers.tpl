@@ -11,3 +11,9 @@ Generate paymentsApiToken if not specified in values
   {{- randAlphaNum 48 -}}
 {{- end -}}
 {{- end -}}
+{{/*
+Generate ingress hostname if not specified in values
+*/}}
+{{- define "ingress.hostName" -}}
+{{- .Values.antaeus.ingress.domain.prefix }}{{ if ne .Values.antaeus.ingress.domain.prefix "" }}.{{ end }}{{- .Values.antaeus.ingress.domain.base }}{{- .Values.antaeus.ingress.domain.suffix }}
+{{- end }}

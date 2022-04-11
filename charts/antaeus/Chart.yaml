@@ -4,6 +4,20 @@ name: antaeus
 description: |
   Antaeus helm chart is the solution for the Pleo SRE challenge and 
   contains a microservice with an payment provider.
+  
+  How to get it;
+  ~~~
+  helm repo add antaeus https://dfroberg.github.io/tinjis/
+  helm repo update
+  ~~~
+  Take a look;
+  ~~~
+  helm search repo antaeus
+  ~~~
+  How to install it;
+  ~~~
+  helm install 
+  ~~~
 
 home: https://github.com/dfroberg/tinjis
 icon: https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png
