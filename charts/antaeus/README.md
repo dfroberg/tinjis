@@ -1,6 +1,6 @@
 # antaeus
 
-![Version: 0.1.5](https://img.shields.io/badge/Version-0.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.1.6](https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 Antaeus helm chart is the solution for the Pleo SRE challenge and
 contains a microservice with an payment provider.
@@ -18,12 +18,12 @@ How to install it;
 ~~~
 helm upgrade antaeus antaeus \
       --install \
-      --namespace test-antaeus \
+      --namespace payments \
       --create-namespace \
       --wait \
       --set antaeus.image.tag=latest \
       --set antaeus.ingress.enabled=true \
-      --set antaeus.ingress.domain.prefix=test \
+      --set antaeus.ingress.domain.prefix="" \
       --set antaeus.ingress.domain.base=antaeus.local \
       --set antaeus.testService.enabled=true \
       --set payment.networkPolicy.enabled=true
