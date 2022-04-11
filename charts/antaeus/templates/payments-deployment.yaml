@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.payment.image.repository | default "dfroberg/pleo-payment" }}:{{ .Values.payment.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.payment.image.pullPolicy | default "IfNotPresent" }}  
           resources:
-            {{- toYaml .Values.payment.resources | nindent 10 }}
+            {{- toYaml .Values.payment.resources | nindent 12 }}
           ports:
             - containerPort: 9000
           env:
@@ -33,9 +33,9 @@ spec:
                 secretKeyRef:
                   name: common-payments-secret
                   key: PAYMENTS_API_TOKEN
-          {{- with .Values.payment.env }}
-            {{- toYaml . | nindent 10 }}
-          {{- end }}
+            {{- with .Values.payment.env }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: /health

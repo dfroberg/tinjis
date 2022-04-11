@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.antaeus.image.repository | default "dfroberg/pleo-antaeus" }}:{{ .Values.antaeus.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.antaeus.image.pullPolicy | default "IfNotPresent" }}
           resources:
-            {{- toYaml .Values.antaeus.resources | nindent 10 }}
+            {{- toYaml .Values.antaeus.resources | nindent 12 }}
           ports:
             - containerPort: 8000
           env:
@@ -38,9 +38,9 @@ spec:
                 configMapKeyRef:
                   name: antaeus-config-map
                   key: PAYMENT_PROVIDER_ENDPOINT
-          {{- with .Values.antaeus.env }}
-            {{- toYaml . | nindent 10 }}
-          {{- end }}
+            {{- with .Values.antaeus.env }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: /rest/health

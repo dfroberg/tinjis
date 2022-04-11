@@ -12,7 +12,8 @@ antaeus:
     pullPolicy: "Always"
   # -- Environment vars to set
   env:
-    TZ: "Europe/Stockholm"
+    - name: "TZ"
+      value: "Europe/Stockholm"
   ingress:
     enabled: true
     annotations: {}
@@ -42,7 +43,8 @@ payment:
     pullPolicy: "Always"
   # -- Environment vars to set
   env:
-    TZ: "Europe/Stockholm"
+    - name: "TZ"
+      value: "Europe/Stockholm"
   networkPolicy:
     # -- Allow communication to this service ONLY from antaeus
     enabled: true

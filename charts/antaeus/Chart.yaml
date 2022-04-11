@@ -2,12 +2,12 @@
 apiVersion: v2
 name: antaeus
 type: application
-version: 0.1.6
+version: 0.1.7
 appVersion: v0.1.0
 description: |
-  Antaeus helm chart is the solution for the Pleo SRE challenge and 
+  Antaeus helm chart is the solution for the Pleo SRE challenge and
   contains a microservice with an payment provider.
-  
+  ---
   How to get it;
   ~~~
   helm repo add antaeus https://dfroberg.github.io/tinjis/
@@ -30,7 +30,6 @@ description: |
         --set antaeus.ingress.domain.base=antaeus.local \
         --set antaeus.testService.enabled=true \
         --set payment.networkPolicy.enabled=true
-
   ~~~
 
 home: https://github.com/dfroberg/tinjis
