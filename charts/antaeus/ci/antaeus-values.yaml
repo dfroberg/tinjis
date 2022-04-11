@@ -1,0 +1,44 @@
+---
+common:
+  # This is optional, will be pupulated by a random string if not defined.
+  paymentsApiToken: TestToken
+
+antaeus:
+  namespace: payments
+  image:
+    repository: "dfroberg/pleo-antaeus"
+    tag: "latest"
+    pullPolicy: "Always"
+  env:
+    TZ: "Europe/Stockholm"
+  ingress:
+    enabled: true
+    annotations: {}
+    labels: {}
+    #  nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    ingressClassName: "traefik"
+    host: "antaeus.local"
+  testservice:
+    enabled: true
+  resources:
+    limits:
+      memory: 4096Mi
+    requests:
+      cpu: 1024m
+      memory: 4096Mi
+
+payment:
+  namespace: payments
+  image:
+    repository: "dfroberg/pleo-payment"
+    tag: "latest"
+    pullPolicy: "Always"
+  env:
+    TZ: "Europe/Stockholm"
+  # Allow communication to this service ONLY from antaeus
+  networkPolicy:
+    enabled: true
+  resources:
+    limits:
+      memory: "64Mi"
+      cpu: "250m"

@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antaeus
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app: antaeus
+  annotations:
+    meta.helm.sh/release-name: "{{ .Release.Name }}"
+    meta.helm.sh/release-namespace: "{{ .Release.Namespace }}"
+spec:
+  selector:
+    matchLabels:
+      app: antaeus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: antaeus
+    spec:
+      containers:
+        - name: antaeus
+          image: "{{ .Values.antaeus.image.repository | default "dfroberg/pleo-antaeus" }}:{{ .Values.antaeus.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.antaeus.image.pullPolicy | default "IfNotPresent" }}
+          resources:
+            {{- toYaml .Values.antaeus.resources | nindent 10 }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PAYMENTS_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: common-payments-secret
+                  key: PAYMENTS_API_TOKEN
+            - name: PAYMENT_PROVIDER_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: antaeus-config-map
+                  key: PAYMENT_PROVIDER_ENDPOINT
+          {{- with .Values.antaeus.env }}
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /rest/health
+              port: 8000
+            initialDelaySeconds: 180
+            timeoutSeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /rest/health
+              port: 8000
+            initialDelaySeconds: 180
+            timeoutSeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 1

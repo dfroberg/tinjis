@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: antaeus-config-map
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app: antaeus
+  annotations:
+    meta.helm.sh/release-name: "{{ .Release.Name }}"
+    meta.helm.sh/release-namespace: "{{ .Release.Namespace }}"
+data:
+  PAYMENT_PROVIDER_ENDPOINT: http://payments-service.{{ .Release.Namespace }}.svc.cluster.local:9000
