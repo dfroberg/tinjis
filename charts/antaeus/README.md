@@ -8,7 +8,7 @@ Antaeus helm chart is an SRE challenge microservice.
 
 ```
 # Install this Chart.
-helm repo add antaeus https://dfroberg.github.io/tinjs/charts/antaeus
+helm repo add antaeus https://dfroberg.github.io/tinjis/charts/antaeus
 helm repo update
 ```
 

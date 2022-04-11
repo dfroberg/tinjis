@@ -4,23 +4,13 @@ name: antaeus
 description: |
   Antaeus helm chart is an SRE challenge microservice.
 
-home: https://github.com/dfroberg/tinjs
+home: https://github.com/dfroberg/tinjis
 icon: https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png
 sources:
-- https://github.com/dfroberg/tinjs/charts/antaeus
+- https://github.com/dfroberg/tinjis/charts/antaeus
 maintainers:
   - name: dfroberg
     email: danny@froberg.org
-
-# A chart can be either an 'application' or a 'library' chart.
-#
-# Application charts are a collection of templates that can be packaged into
-# versioned archives to be deployed.
-#
-# Library charts provide useful utilities or functions for the chart developer.
-# They're included as # a dependency of application charts to inject those
-# utilities and functions into the rendering pipeline. Library charts do not
-# define any templates and therefore cannot be deployed.
 type: application
 
 # This is the chart version. This version number should be incremented each time
