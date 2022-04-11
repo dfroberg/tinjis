@@ -4,38 +4,42 @@
 
 Antaeus helm chart is an SRE challenge microservice.
 
-## Get Repo Info
+**Homepage:** <https://github.com/dfroberg/tinjis>
 
-```
-# Install this Chart.
-helm repo add antaeus https://dfroberg.github.io/tinjis/charts/antaeus
-helm repo update
-```
+## Maintainers
 
-## Installing the Chart
+| Name | Email | Url |
+| ---- | ------ | --- |
+| dfroberg | <danny@froberg.org> |  |
 
+## Source Code
 
-```
-# Create namespace for antaeus
-kubectl create ns payments
-# Install helm chart with proper values.yaml config
-helm install antaeus dfroberg/antaeus -f antaeus-values.yaml -n payments
-```
-
-## Uninstalling the Chart
-
-```
-helm delete antaeus -n payments
-```
+* <https://github.com/dfroberg/tinjis/charts/antaeus>
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| antaeus.image.repository | string | `"dfroberg/pleo-antaeus"` | docker image repository name |
-| antaeus.image.pullPolicy | string | `"IfNotPresent"` | pullPolicy |
-| antaeus.image.tag | string | `""` | docker image tag |
-| payment.image.repository | string | `"dfroberg/pleo-payment"` | docker image repository name |
-| payment.image.pullPolicy | string | `"IfNotPresent"` | pullPolicy |
-| payment.image.tag | string | `""` | docker image tag |
+| common | object | `{}` |  |
+| antaeus.namespace | string | `"payments"` |  |
+| antaeus.image.repository | string | `"dfroberg/pleo-antaeus"` |  |
+| antaeus.image.tag | string | `"latest"` |  |
+| antaeus.image.pullPolicy | string | `"Always"` |  |
+| antaeus.env.TZ | string | `"Europe/Stockholm"` |  |
+| antaeus.ingress.enabled | bool | `true` |  |
+| antaeus.ingress.annotations | object | `{}` |  |
+| antaeus.ingress.labels | object | `{}` |  |
+| antaeus.ingress.ingressClassName | string | `"traefik"` |  |
+| antaeus.ingress.host | string | `"antaeus.local"` |  |
+| antaeus.testservice.enabled | bool | `true` |  |
+| antaeus.resources.limits.memory | string | `"4096Mi"` |  |
+| antaeus.resources.requests.cpu | string | `"1024m"` |  |
+| antaeus.resources.requests.memory | string | `"4096Mi"` |  |
+| payment.image.repository | string | `"dfroberg/pleo-payment"` |  |
+| payment.image.tag | string | `"latest"` |  |
+| payment.image.pullPolicy | string | `"Always"` |  |
+| payment.env.TZ | string | `"Europe/Stockholm"` |  |
+| payment.networkPolicy.enabled | bool | `true` |  |
+| payment.resources.limits.memory | string | `"64Mi"` |  |
+| payment.resources.limits.cpu | string | `"250m"` |  |
 
