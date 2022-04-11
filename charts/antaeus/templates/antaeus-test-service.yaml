@@ -1,5 +1,5 @@
 ---
-{{- if (.Values.antaeus.testservice.enabled) }}
+{{- if (.Values.antaeus.testService.enabled) }}
 apiVersion: v1
 kind: Service
 metadata:

@@ -1,11 +1,11 @@
 ---
+# -- Common values for all services
 common:
-  # This is optional, will be pupulated by a random string if not defined.
+  # -- This is optional, will be pupulated by a random string if not defined or already present in a secret.
   paymentsApiToken: TestToken
 
+# -- Values for antaeus service
 antaeus:
-  # -- The namespace to deploy all charts into
-  namespace: payments
   image:
     repository: "dfroberg/pleo-antaeus"
     tag: "latest"
@@ -23,8 +23,8 @@ antaeus:
       base: "antaeus.local"
       prefix: ""
       suffix: ""
-  # -- Enable if you wish to deploy a NodePort test service
-  testservice:
+  testService:
+    # -- Enable if you wish to deploy a NodePort test service
     enabled: true
   # -- Resource limits
   resources:
@@ -34,6 +34,7 @@ antaeus:
       cpu: 1024m
       memory: 4096Mi
 
+# -- Values for payment service
 payment:
   image:
     repository: "dfroberg/pleo-payment"
@@ -42,8 +43,8 @@ payment:
   # -- Environment vars to set
   env:
     TZ: "Europe/Stockholm"
-  # -- Allow communication to this service ONLY from antaeus
   networkPolicy:
+    # -- Allow communication to this service ONLY from antaeus
     enabled: true
   # -- Resource limits
   resources:

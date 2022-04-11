@@ -16,7 +16,18 @@ description: |
   ~~~
   How to install it;
   ~~~
-  helm install 
+  helm upgrade antaeus antaeus \
+        --install \
+        --namespace test-antaeus \
+        --create-namespace \
+        --wait \
+        --set antaeus.image.tag=latest \
+        --set antaeus.ingress.enabled=true \
+        --set antaeus.ingress.domain.prefix=test \
+        --set antaeus.ingress.domain.base=antaeus.local \
+        --set antaeus.testService.enabled=true \
+        --set payment.networkPolicy.enabled=true \
+
   ~~~
 
 home: https://github.com/dfroberg/tinjis

@@ -1,32 +1,26 @@
 ---
 common:
-  # This is optional, will be pupulated by a random string if not defined.
   paymentsApiToken: TestToken
 
 antaeus:
-  # -- The namespace to deploy all charts into
   namespace: payments
   image:
     repository: "dfroberg/pleo-antaeus"
     tag: "latest"
     pullPolicy: "Always"
-  # -- Environment vars to set
   env:
     TZ: "Europe/Stockholm"
   ingress:
     enabled: true
     annotations: {}
     labels: {}
-    #  nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     ingressClassName: "traefik"
     domain:
       base: "antaeus.local"
       prefix: ""
       suffix: ""
-  # -- Enable if you wish to deploy a NodePort test service
-  testservice:
+  testService:
     enabled: true
-  # -- Resource limits
   resources:
     limits:
       memory: 4096Mi
@@ -39,13 +33,10 @@ payment:
     repository: "dfroberg/pleo-payment"
     tag: "latest"
     pullPolicy: "Always"
-  # -- Environment vars to set
   env:
     TZ: "Europe/Stockholm"
-  # -- Allow communication to this service ONLY from antaeus
   networkPolicy:
     enabled: true
-  # -- Resource limits
   resources:
     limits:
       memory: "64Mi"
