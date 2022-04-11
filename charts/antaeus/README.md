@@ -5,6 +5,20 @@
 Antaeus helm chart is the solution for the Pleo SRE challenge and
 contains a microservice with an payment provider.
 
+How to get it;
+~~~
+helm repo add antaeus https://dfroberg.github.io/tinjis/
+helm repo update
+~~~
+Take a look;
+~~~
+helm search repo antaeus
+~~~
+How to install it;
+~~~
+helm install
+~~~
+
 **Homepage:** <https://github.com/dfroberg/tinjis>
 
 ## Maintainers
@@ -21,26 +35,25 @@ contains a microservice with an payment provider.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| common | object | `{}` |  |
-| antaeus.namespace | string | `"payments"` |  |
+| common.paymentsApiToken | string | `"TestToken"` |  |
+| antaeus.namespace | string | `"payments"` | The namespace to deploy all charts into |
 | antaeus.image.repository | string | `"dfroberg/pleo-antaeus"` |  |
 | antaeus.image.tag | string | `"latest"` |  |
 | antaeus.image.pullPolicy | string | `"Always"` |  |
-| antaeus.env.TZ | string | `"Europe/Stockholm"` |  |
+| antaeus.env | object | `{"TZ":"Europe/Stockholm"}` | Environment vars to set |
 | antaeus.ingress.enabled | bool | `true` |  |
 | antaeus.ingress.annotations | object | `{}` |  |
 | antaeus.ingress.labels | object | `{}` |  |
 | antaeus.ingress.ingressClassName | string | `"traefik"` |  |
-| antaeus.ingress.host | string | `"antaeus.local"` |  |
-| antaeus.testservice.enabled | bool | `true` |  |
-| antaeus.resources.limits.memory | string | `"4096Mi"` |  |
-| antaeus.resources.requests.cpu | string | `"1024m"` |  |
-| antaeus.resources.requests.memory | string | `"4096Mi"` |  |
+| antaeus.ingress.domain.base | string | `"antaeus.local"` |  |
+| antaeus.ingress.domain.prefix | string | `""` |  |
+| antaeus.ingress.domain.suffix | string | `""` |  |
+| antaeus.testservice | object | `{"enabled":true}` | Enable if you wish to deploy a NodePort test service |
+| antaeus.resources | object | `{"limits":{"memory":"4096Mi"},"requests":{"cpu":"1024m","memory":"4096Mi"}}` | Resource limits |
 | payment.image.repository | string | `"dfroberg/pleo-payment"` |  |
 | payment.image.tag | string | `"latest"` |  |
 | payment.image.pullPolicy | string | `"Always"` |  |
-| payment.env.TZ | string | `"Europe/Stockholm"` |  |
-| payment.networkPolicy.enabled | bool | `true` |  |
-| payment.resources.limits.memory | string | `"64Mi"` |  |
-| payment.resources.limits.cpu | string | `"250m"` |  |
+| payment.env | object | `{"TZ":"Europe/Stockholm"}` | Environment vars to set |
+| payment.networkPolicy | object | `{"enabled":true}` | Allow communication to this service ONLY from antaeus |
+| payment.resources | object | `{"limits":{"cpu":"250m","memory":"64Mi"}}` | Resource limits |
 
