@@ -16,6 +16,7 @@ How to install it;
 helm upgrade antaeus antaeus/antaeus \
       --install \
       --namespace payments \
+      --create-namespace \
       --wait \
       --set antaeus.image.tag=latest \
       --set antaeus.ingress.enabled=true \
