@@ -72,6 +72,9 @@ I'm not a Kotlin coder so any changes can probably be MUCH prettier and elegant!
 * Github Action
     * Runs end to end test by creating a one node k3s cluster, deploying the manifests and running the tests.
     * Rudimentary docker image build and push action.
+    * Helm Chart releaser
+* Helm Chart
+    * Check https://github.com/dfroberg/tinjis/blob/master/charts/antaeus/README.md for instructions.
 
 ### Suggested
 * Depending on the number of DIFFERENT installations and environments of the services.
@@ -171,45 +174,61 @@ If a portforward is active to antaeus the tests will use that regardless if a in
 ~~~
 Should return something similar to;
 ~~~
+► Starting tests
+  Buffer file /tmp/content.txt exists.
+► Waiting up to 240s for antaeus deployments to be ready...
+  deployment.apps/payments condition met
+  deployment.apps/antaeus condition met
 ► Testing Antaeus availability...
-antaeus-6fd48d47d5-b9fdz using dfroberg/pleo-antaeus:latest image is available on port 8000
-antaeus-service is available on port 8000
+  antaeus-5b87d45cb6-mkc6g using dfroberg/pleo-antaeus:latest image is available on port 8000
+  antaeus-service is available on port 8000
 ► Testing Payment availability...
-payments-7cff684d48-p756q using dfroberg/pleo-payment:latest image is available on port 9000
-antaeus-service is available on port 9000
+  payments-d86dcb7bd-t2bl5 using dfroberg/pleo-payment:latest image is available on port 9000
+  payments-service is available on port 9000
 ► Testing accessibility...
-► Ingress: antaeus-ingress defined and is exposed on host antaeus.local
+ ✔ Ingress: antaeus-ingress defined and is exposed on host antaeus.local
+ ✔ Host defined http://antaeus.local/rest/health
+ ✔ Passed [200]
+- Gathered Test Host Endpoint:  antaeus.local
 ► Testing API Endpoints:
-► Testing http://antaeus.local/rest/health ...
-"ok"
- ✔ Passed
-► Testing http://antaeus.local/rest/v1/Customers ...
-[{"id":1,"currency":"USD"},{"id":2,"currency":"DKK"}]
- ✔ Passed
-► Testing http://antaeus.local/rest/v1/Customers/1 ...
-{"id":1,"currency":"USD"}
- ✔ Passed
-► Testing http://antaeus.local/rest/v1/invoices ...
-[{"id":1,"customerId":1,"amount":{"value":292.97,"currency":"USD"},"status":"PAID"},{"id":2,"customerId":1,"amount":{"value":22.20,"currency":"USD"},"status":"PENDING"},{"id":3,"customerId":1,"amount":{"value":236.08,"currency":"USD"},"status":"PENDING"},{"id":4,"customerId":1,"amount":{"value":98.38,"currency":"USD"},"status":"PENDING"},{"id":5,"customerId":1,"amount":{"value":325.23,"currency":"USD"},"status":"PENDING"},{"id":6,"customerId":2,"amount":{"value":126.93,"currency":"DKK"},"status":"PAID"},{"id":7,"customerId":2,"amount":{"value":22.94,"currency":"DKK"},"status":"PENDING"},{"id":8,"customerId":2,"amount":{"value":118.84,"currency":"DKK"},"status":"PENDING"},{"id":9,"customerId":2,"amount":{"value":203.34,"currency":"DKK"},"status":"PENDING"},{"id":10,"customerId":2,"amount":{"value":400.86,"currency":"DKK"},"status":"PENDING"}]
- ✔ Passed
-► Testing http://antaeus.local/rest/v1/invoices/1 ...
-{"id":1,"customerId":1,"amount":{"value":292.97,"currency":"USD"},"status":"PAID"}
- ✔ Passed
+► Testing http://antaeus.local/rest/health ... ✔ Passed [200]
+  ---
+  "ok"
+  ---
+  ✔ Done
+► Testing http://antaeus.local/rest/v1/Customers ... ✔ Passed [200]
+  ---
+  [{"id":1,"currency":"USD"},{"id":2,"currency":"DKK"}]
+  ---
+  ✔ Done
+► Testing http://antaeus.local/rest/v1/Customers/1 ... ✔ Passed [200]
+  ---
+  {"id":1,"currency":"USD"}
+  ---
+  ✔ Done
+► Testing http://antaeus.local/rest/v1/invoices ... ✔ Passed [200]
+  ---
+  [{"id":1,"customerId":1,"amount":{"value":233.12,"currency":"USD"},"status":"PAID"},{"id":2,"customerId":1,"amount":{"value":356.72,"currency":"USD"},"status":"PENDING"},{"id":3,"customerId":1,"amount":{"value":39.75,"currency":"USD"},"status":"PENDING"},{"id":4,"customerId":1,"amount":{"value":145.40,"currency":"USD"},"status":"PENDING"},{"id":5,"customerId":1,"amount":{"value":427.54,"currency":"USD"},"status":"PENDING"},{"id":6,"customerId":2,"amount":{"value":319.10,"currency":"DKK"},"status":"PAID"},{"id":7,"customerId":2,"amount":{"value":78.05,"currency":"DKK"},"status":"PENDING"},{"id":8,"customerId":2,"amount":{"value":477.07,"currency":"DKK"},"status":"PENDING"},{"id":9,"customerId":2,"amount":{"value":13.86,"currency":"DKK"},"status":"PENDING"},{"id":10,"customerId":2,"amount":{"value":181.44,"currency":"DKK"},"status":"PENDING"}]
+  ---
+  ✔ Done
+► Testing http://antaeus.local/rest/v1/invoices/1 ... ✔ Passed [200]
+  ---
+  {"id":1,"customerId":1,"amount":{"value":233.12,"currency":"USD"},"status":"PAID"}
+  ---
+  ✔ Done
 ► Testing Payments: Show distribution of INVOICE_STATUS
-► Testing http://antaeus.local/rest/v1/invoices ...
-{ "status": "PAID", "count": 2 } { "status": "PENDING", "count": 8 }
-
-✔ Done
+► Calling http://antaeus.local/rest/v1/invoices ... ✔ Passed [200]
+  Invoices PAID=2 & PENDING=8
+  ✔ Done
 ► Testing Payments: Making a payment call
-► Testing http://antaeus.local/rest/v1/invoices/pay ...
-false
-
-✔ Done
+► Calling http://antaeus.local/rest/v1/invoices/pay ... ✔ Passed [200]
+  Returned false, Not all invoices paid successfuly
+  ✔ Done
 ► Testing Payments: Show distribution of INVOICE_STATUS
-► Testing http://antaeus.local/rest/v1/invoices ...
-{ "status": "PAID", "count": 4 } { "status": "PENDING", "count": 6 }
-
-✔ Done
+► Calling http://antaeus.local/rest/v1/invoices ... ✔ Passed [200]
+  Invoices PAID=5 & PENDING=5
+  ✔ Done
+✔ All Tests Done
 ~~~
 
 # Local Deployment
