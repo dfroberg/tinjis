@@ -1,4 +1,4 @@
-# Welcome to Antaeus 
+# Welcome to Antaeus
 
 This is the Helm Chart repo for an Pleo SRE challenge solution by dfroberg.
 
