@@ -2,7 +2,7 @@
 apiVersion: v2
 name: antaeus
 type: application
-version: 0.1.9
+version: 0.1.10
 appVersion: v0.1.0
 description: |
   Antaeus helm chart is the solution for the Pleo SRE challenge and
@@ -22,6 +22,7 @@ description: |
   helm upgrade antaeus antaeus/antaeus \
         --install \
         --namespace payments \
+        --create-namespace \
         --wait \
         --set antaeus.image.tag=latest \
         --set antaeus.ingress.enabled=true \
