@@ -13,7 +13,7 @@ helm search repo antaeus
 ~~~
 How to install it;
 ~~~
-helm upgrade antaeus antaeus \
+helm upgrade antaeus antaeus/antaeus \
       --install \
       --namespace test-antaeus \
       --create-namespace \
