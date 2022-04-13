@@ -11,19 +11,19 @@ jobs:
     continue-on-error: true
 
     steps:
-    - name: Create kube config
-      run: |
-        mkdir -p $HOME/.kube/
-        echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
-        chmod 600 $HOME/.kube/config
-    - name: Set up Helm
-      uses: azure/setup-helm@v1
-      with:
-        version: v3.8.1
+      - name: Create kube config
+        run: |
+          mkdir -p $HOME/.kube/
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.8.1
 
-    - name: Delete Helm Chart
-      run: helm delete pr-${{ github.event.pull_request.number }} --namespace pr-${{ github.event.pull_request.number }}
+      - name: Delete Helm Chart
+        run: helm delete pr-${{ github.event.pull_request.number }} --namespace pr-${{ github.event.pull_request.number }}
 
-    - name: Delete Namespace
-      if: always()
-      run: kubectl delete namespace pr-${{ github.event.pull_request.number }}
+      - name: Delete Namespace
+        if: always()
+        run: kubectl delete namespace pr-${{ github.event.pull_request.number }}
