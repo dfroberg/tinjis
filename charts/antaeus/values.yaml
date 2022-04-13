@@ -43,7 +43,6 @@ antaeus:
     limits:
       memory: 4096Mi
     requests:
-      cpu: 1024m
       memory: 4096Mi
 
 # -- Values for payment service
@@ -67,4 +66,5 @@ payment:
   resources:
     limits:
       memory: "64Mi"
-      cpu: "250m"
+    requests:
+      memory: "64Mi"
