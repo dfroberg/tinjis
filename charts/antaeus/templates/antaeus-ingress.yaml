@@ -28,5 +28,5 @@ spec:
               service:
                 name: antaeus-service
                 port:
-                  number: {{- .Values.antaeus.service.port | default 8000 }}
+                  number: {{ .Values.antaeus.service.port | default 8000 }}
 {{- end -}}
