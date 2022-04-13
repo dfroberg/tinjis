@@ -3,7 +3,6 @@ common:
   paymentsApiToken: TestToken
 
 antaeus:
-  namespace: payments
   image:
     repository: "dfroberg/pleo-antaeus"
     tag: "latest"
