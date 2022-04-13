@@ -57,7 +57,7 @@ jobs:
             --set antaeus.testService.enabled=true
             --set antaeus.ingress.ingressClassName="traefik" \
             --set antaeus.ingress.domain.base=${{ secrets.HELM_DOMAIN }} \
-            --set antaeus.ingress.domain.prefix=pr-${{ github.event.pull_request.number }}.pr \
+            --set antaeus.ingress.domain.prefix=pr-${{ github.event.pull_request.number }} \
             --set payment.image.tag=pr-${{ github.event.pull_request.number }} \
             --set payment.image.networkPolicy.enabled=true
       - name: Install Helm Chart
