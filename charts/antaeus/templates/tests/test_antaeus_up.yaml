@@ -9,7 +9,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   containers:
-    - name: {{ .Release.Name }}-test-antaeus-up
+    - name: "{{ .Release.Name }}-test-antaeus-up"
       image: curlimages/curl
       command:
         - /bin/sh
