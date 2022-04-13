@@ -40,4 +40,4 @@ payment:
   resources:
     limits:
       memory: "64Mi"
-      cpu: "250m"
+
