@@ -15,7 +15,7 @@ spec:
       - -ec
       - |
         echo -e "► Starting tests"
-        TEST_HOST=antaeus-service:8080
+        TEST_HOST=antaeus-service:8000
         TEST_PATHS=$(cat <<'EOT'
         rest/health
         rest/v1/Customers
