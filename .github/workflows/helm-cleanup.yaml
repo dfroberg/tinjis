@@ -1,0 +1,31 @@
+---
+name: 'Helm Cleanup Pull Request'
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  cleanup-pr:
+    name: 'Cleanup Pull Request'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+    - name: Create kube config
+      run: |
+        mkdir -p $HOME/.kube/
+        echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
+    - name: Install helm
+      run: |
+        curl -LO https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz
+        tar -zxvf helm-v3.8.0-linux-amd64.tar.gz
+        mv linux-amd64/helm /usr/local/bin/helm
+        helm version
+
+    - name: Delete Helm Chart
+      run: helm delete pr-${{ github.event.pull_request.number }} --namespace pr-${{ github.event.pull_request.number }}
+
+    - name: Delete Namespace
+      if: always()
+      run: kubectl namespace delete pr-${{ github.event.pull_request.number }}
