@@ -31,6 +31,10 @@ helm upgrade antaeus antaeus/antaeus \
       --set antaeus.testService.enabled=true \
       --set payment.networkPolicy.enabled=true
 ~~~
+How to test it;
+~~~
+helm test antaeus --namespace payments
+~~~
 
 **Homepage:** <https://github.com/dfroberg/tinjis>
 
