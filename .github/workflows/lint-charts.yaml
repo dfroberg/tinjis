@@ -36,4 +36,4 @@ jobs:
         uses: helm/kind-action@v1.2.0
 
       - name: Run chart-testing (install)
-        run: ct install --charts ./charts/antaeus
+        run: ct install --charts ./charts/antaeus --helm-extra-args=" --timeout 500"
