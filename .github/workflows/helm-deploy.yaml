@@ -38,12 +38,10 @@ jobs:
         mkdir -p $HOME/.kube/
         echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
         chmod 600 $HOME/.kube/config
-    - name: Install helm
-      run: |
-        curl -LO https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz
-        tar -zxvf helm-v3.8.0-linux-amd64.tar.gz
-        mv linux-amd64/helm /usr/local/bin/helm
-        helm version
+    - name: Set up Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: v3.8.1
 
     - name: Lint helm charts
       run: helm lint ./charts/antaeus/

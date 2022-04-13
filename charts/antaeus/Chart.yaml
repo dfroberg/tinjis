@@ -2,7 +2,7 @@
 apiVersion: v2
 name: antaeus
 type: application
-version: 0.1.15
+version: 0.1.16
 appVersion: v0.1.0
 description: |
   Antaeus helm chart is the solution for the Pleo SRE challenge and
@@ -31,7 +31,10 @@ description: |
         --set antaeus.testService.enabled=true \
         --set payment.networkPolicy.enabled=true
   ~~~
-
+  How to test it;
+  ~~~
+  helm test antaeus --namespace payments
+  ~~~
 home: https://github.com/dfroberg/tinjis
 icon: https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png
 sources:
