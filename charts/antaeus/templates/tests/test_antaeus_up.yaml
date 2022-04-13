@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Pod
 metadata:
@@ -8,75 +9,75 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   containers:
-  - name: {{ .Release.Name }}-test-antaeus-up
-    image: curlimages/curl
-    command:
-      - /bin/sh
-      - -ec
-      - |
-        echo -e "► Starting tests"
-        TEST_HOST=antaeus-service:8000
-        TEST_PATHS=$(cat <<'EOT'
-        rest/health
-        rest/v1/Customers
-        rest/v1/Customers/1
-        rest/v1/invoices
-        rest/v1/invoices/1
-        EOT
-        )
-        TMPF="/tmp/content.txt"
-        touch $TMPF
-        if test -f "$TMPF"; then
-          echo "  Buffer file $TMPF exists."
-        else
-          echo "  Can't create buffer file $TMPF aborting tests."
-          exit 1
-        fi
-        echo -e "► Testing API Endpoints:"
-        for p in $TEST_PATHS
-        do
-          TEST_URL="http://${TEST_HOST}/${p}"
-          echo -e -n "► Testing ${TEST_URL} ..."
-          HTTP_STATUS=""
-          HTTP_STATUS=$(curl -k -L -X GET -q --max-time 5 -s -w '%{http_code}' -o ${TMPF} ${TEST_URL})
-          CONTENT=$(< ${TMPF})
-          if [ $HTTP_STATUS -ne 200 ]
-          then
-              echo -e " X Failed [$HTTP_STATUS]"
-              echo -e "  Got: $CONTENT"
-              echo -e "  Antaeus service is quite slow to build ~1 minute or something is really wrong, check and try again."
-              exit 1
+    - name: {{ .Release.Name }}-test-antaeus-up
+      image: curlimages/curl
+      command:
+        - /bin/sh
+        - -ec
+        - |
+          echo -e "► Starting tests"
+          TEST_HOST=antaeus-service:8000
+          TEST_PATHS=$(cat <<'EOT'
+          rest/health
+          rest/v1/Customers
+          rest/v1/Customers/1
+          rest/v1/invoices
+          rest/v1/invoices/1
+          EOT
+          )
+          TMPF="/tmp/content.txt"
+          touch $TMPF
+          if test -f "$TMPF"; then
+            echo "  Buffer file $TMPF exists."
           else
-              echo -e " ✔ Passed [$HTTP_STATUS]"
-              echo -e "  ---\n  $CONTENT\n  ---"
+            echo "  Can't create buffer file $TMPF aborting tests."
+            exit 1
           fi
-          echo -e "  ✔ Done"
-        done
-        echo -e "► Testing Payments: Making a payment call"
-        for p in "rest/v1/invoices/pay"
-        do
-          TEST_URL="http://$TEST_HOST/$p"
-          echo -e -n "► Calling $TEST_URL ..."
-          HTTP_STATUS=""
-          HTTP_STATUS=$(curl -k -L -X POST -q --max-time 5 -s -w '%{http_code}' -o ${TMPF} ${TEST_URL})
-          CONTENT=$(< ${TMPF})
-          if [ $HTTP_STATUS -gt 200 ]; then
-              echo -e "X Failed testing, Got Code $HTTP_STATUS "
-              exit 1
-          else
-              if [ "$CONTENT" == "" ]; then
-                  echo -e " x Reachable but empty reply [$HTTP_STATUS]"
-              else
-                  echo -e " ✔ Passed [$HTTP_STATUS]"
-                  if [ "$CONTENT" == "true" ]; then
-                      echo -e "  Returned $CONTENT, Successfuly paid all invoices"
-                      NOTICE=1
-                  else
-                      echo -e "  Returned $CONTENT, Not all invoices paid successfuly"
-                  fi
-              fi
-          fi
-          echo -e "  ✔ Done"
-        done
-        echo -e "✔ All Tests Done"
-  restartPolicy: Never
+          echo -e "► Testing API Endpoints:"
+          for p in $TEST_PATHS
+          do
+            TEST_URL="http://${TEST_HOST}/${p}"
+            echo -e -n "► Testing ${TEST_URL} ..."
+            HTTP_STATUS=""
+            HTTP_STATUS=$(curl -k -L -X GET -q --max-time 5 -s -w '%{http_code}' -o ${TMPF} ${TEST_URL})
+            CONTENT=$(< ${TMPF})
+            if [ $HTTP_STATUS -ne 200 ]
+            then
+                echo -e " X Failed [$HTTP_STATUS]"
+                echo -e "  Got: $CONTENT"
+                echo -e "  Antaeus service is quite slow to build ~1 minute or something is really wrong, check and try again."
+                exit 1
+            else
+                echo -e " ✔ Passed [$HTTP_STATUS]"
+                echo -e "  ---\n  $CONTENT\n  ---"
+            fi
+            echo -e "  ✔ Done"
+          done
+          echo -e "► Testing Payments: Making a payment call"
+          for p in "rest/v1/invoices/pay"
+          do
+            TEST_URL="http://$TEST_HOST/$p"
+            echo -e -n "► Calling $TEST_URL ..."
+            HTTP_STATUS=""
+            HTTP_STATUS=$(curl -k -L -X POST -q --max-time 5 -s -w '%{http_code}' -o ${TMPF} ${TEST_URL})
+            CONTENT=$(< ${TMPF})
+            if [ $HTTP_STATUS -gt 200 ]; then
+                echo -e "X Failed testing, Got Code $HTTP_STATUS "
+                exit 1
+            else
+                if [ "$CONTENT" == "" ]; then
+                    echo -e " x Reachable but empty reply [$HTTP_STATUS]"
+                else
+                    echo -e " ✔ Passed [$HTTP_STATUS]"
+                    if [ "$CONTENT" == "true" ]; then
+                        echo -e "  Returned $CONTENT, Successfuly paid all invoices"
+                        NOTICE=1
+                    else
+                        echo -e "  Returned $CONTENT, Not all invoices paid successfuly"
+                    fi
+                fi
+            fi
+            echo -e "  ✔ Done"
+          done
+          echo -e "✔ All Tests Done"
+    restartPolicy: Never
