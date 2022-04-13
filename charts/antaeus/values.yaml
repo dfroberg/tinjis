@@ -15,18 +15,29 @@ antaeus:
     - name: "TZ"
       value: "Europe/Stockholm"
   ingress:
+    # -- Enable ingress
     enabled: true
+    # -- Ingress annotations
     annotations: {}
+    # -- Ingress labels
     labels: {}
     #  nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # -- IngressClassname
     ingressClassName: "traefik"
+    # -- Build host string
     domain:
       base: "antaeus.local"
       prefix: ""
       suffix: ""
+  # Antaeus service
+  service:
+    # -- Port number (Defaults to 8000)
+    port: 8000
   testService:
     # -- Enable if you wish to deploy a NodePort test service
     enabled: true
+    # -- Port number (Defaults to 8000)
+    port: 8000
   # -- Resource limits
   resources:
     limits:
@@ -45,6 +56,10 @@ payment:
   env:
     - name: "TZ"
       value: "Europe/Stockholm"
+  # Payment service
+  service:
+    # -- Port number (Defaults to 9000)
+    port: 9000
   networkPolicy:
     # -- Allow communication to this service ONLY from antaeus
     enabled: true

@@ -32,7 +32,7 @@ jobs:
           kubectl apply -f manifests/antaeus-test-service.yaml
           #sleep 60
           #kubectl get ing -n payments -oyaml antaeus-ingress
-          echo "$IPA antaeus.local" | sudo tee -a /etc/hosts 
+          echo "$IPA antaeus.local" | sudo tee -a /etc/hosts
           #curl -I -s http://antaeus.local/rest/health && true
           curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/health && true
           curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/v1/invoices && true

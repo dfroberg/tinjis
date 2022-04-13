@@ -12,7 +12,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8000
+    - port: {{- .Values.antaeus.service.port | default 8000 }}
       protocol: TCP
   selector:
     app: antaeus

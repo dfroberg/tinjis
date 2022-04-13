@@ -1,6 +1,6 @@
 name: Manifest Validation
 
-on: 
+on:
   pull_request:
   push:
     branches:

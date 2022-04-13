@@ -13,7 +13,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8000
+    - port: {{- .Values.antaeus.testService.port | default 8000 }}
       protocol: TCP
   selector:
     app: antaeus
