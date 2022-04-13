@@ -40,4 +40,6 @@ payment:
   resources:
     limits:
       memory: "64Mi"
+    requests:
+      memory: "64Mi"
 
