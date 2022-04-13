@@ -25,7 +25,6 @@ antaeus:
     limits:
       memory: 4096Mi
     requests:
-      cpu: 1024m
       memory: 4096Mi
 
 payment:
