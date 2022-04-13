@@ -26,4 +26,4 @@ jobs:
 
     - name: Delete Namespace
       if: always()
-      run: kubectl namespace delete pr-${{ github.event.pull_request.number }}
+      run: kubectl delete namespace pr-${{ github.event.pull_request.number }}
