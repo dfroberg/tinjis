@@ -52,5 +52,31 @@ spec:
           fi
           echo -e "  ✔ Done"
         done
+        echo -e "► Testing Payments: Making a payment call"
+        for p in "rest/v1/invoices/pay"
+        do
+          TEST_URL="http://$TEST_HOST/$p"
+          echo -e -n "► Calling $TEST_URL ..."
+          HTTP_STATUS=""
+          HTTP_STATUS=$(curl -k -L -X POST -q --max-time 5 -s -w '%{http_code}' -o ${TMPF} ${TEST_URL})
+          CONTENT=$(< ${TMPF})
+          if [ $HTTP_STATUS -gt 200 ]; then
+              echo -e "X Failed testing, Got Code $HTTP_STATUS "
+              exit 1
+          else
+              if [ "$CONTENT" == "" ]; then
+                  echo -e " x Reachable but empty reply [$HTTP_STATUS]"
+              else
+                  echo -e " ✔ Passed [$HTTP_STATUS]"
+                  if [ "$CONTENT" == "true" ]; then
+                      echo -e "  Returned $CONTENT, Successfuly paid all invoices"
+                      NOTICE=1
+                  else
+                      echo -e "  Returned $CONTENT, Not all invoices paid successfuly"
+                  fi
+              fi
+          fi
+          echo -e "  ✔ Done"
+        done
         echo -e "✔ All Tests Done"
   restartPolicy: Never
