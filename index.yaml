@@ -3,6 +3,31 @@ entries:
   antaeus:
   - apiVersion: v2
     appVersion: v0.1.0
+    created: "2022-04-14T10:15:09.58795987Z"
+    description: 'Antaeus helm chart is the solution for the Pleo SRE challenge and
+      contains a microservice with an payment provider. --- How to get it; ~~~ helm
+      repo add antaeus https://dfroberg.github.io/tinjis/ helm repo update ~~~ Take
+      a look; ~~~ helm search repo antaeus ~~~ How to install it; ~~~ helm upgrade
+      antaeus antaeus/antaeus \       --install \       --namespace payments \       --create-namespace
+      \       --wait \       --set antaeus.image.tag=latest \       --set antaeus.ingress.enabled=true
+      \       --set antaeus.ingress.domain.prefix="" \       --set antaeus.ingress.domain.base=antaeus.local
+      \       --set antaeus.testService.enabled=true \       --set payment.networkPolicy.enabled=true
+      ~~~ How to test it; ~~~ helm test antaeus --namespace payments ~~~ '
+    digest: ccf472d1cfc83342b3fa21290a765aec40191cc5e5cabde37a72bbc978acd885
+    home: https://github.com/dfroberg/tinjis
+    icon: https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png
+    maintainers:
+    - email: danny@froberg.org
+      name: dfroberg
+    name: antaeus
+    sources:
+    - https://github.com/dfroberg/tinjis/tree/master/antaeus
+    type: application
+    urls:
+    - https://github.com/dfroberg/tinjis/releases/download/antaeus-0.1.18/antaeus-0.1.18.tgz
+    version: 0.1.18
+  - apiVersion: v2
+    appVersion: v0.1.0
     created: "2022-04-14T09:39:52.346313649Z"
     description: 'Antaeus helm chart is the solution for the Pleo SRE challenge and
       contains a microservice with an payment provider. --- How to get it; ~~~ helm
@@ -365,4 +390,4 @@ entries:
     urls:
     - https://github.com/dfroberg/tinjis/releases/download/antaeus-0.1.2/antaeus-0.1.2.tgz
     version: 0.1.2
-generated: "2022-04-14T09:39:52.34644485Z"
+generated: "2022-04-14T10:15:09.588071774Z"
