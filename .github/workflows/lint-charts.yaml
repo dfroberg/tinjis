@@ -2,8 +2,8 @@ name: Lint and Test antaeus Chart
 
 on:
   pull_request:
-    # branches:
-    #   - master
+    branches:
+      - master
     paths:
       - 'charts/**/values.yaml'
       - 'charts/**/Chart.yaml'

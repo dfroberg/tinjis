@@ -22,13 +22,15 @@ jobs:
           version: ${{ matrix.k8s_version }}
       - name: Test on k3s
         run: |
+          # Check cluster
           kubectl get nodes -owide
+          # Check and deploy
           ./k8s-check.sh
           ./k8s-deploy.sh
           kubectl apply -f manifests/antaeus-ingress.yaml
-          # Deploy Test SVC
-          export IPA=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
           kubectl apply -f manifests/antaeus-test-service.yaml
+          # Make test domain resolvable
+          export IPA=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
           echo "$IPA antaeus.local" | sudo tee -a /etc/hosts
           # Run Tests
           ./k8s-test.sh
