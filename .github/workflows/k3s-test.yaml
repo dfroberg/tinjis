@@ -1,10 +1,10 @@
 name: Kuberenetes Matrix Testing
 on:
-      workflow_dispatch:
-      workflow_run:
-        workflows: ["ci", "Manifest Validation"]
-        types:
-          - completed
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["ci", "Manifest Validation"]
+    types:
+      - completed
 
 jobs:
   build:
