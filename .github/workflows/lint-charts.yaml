@@ -5,9 +5,9 @@ on:
     # branches:
     #   - master
     paths:
-      - 'charts/antaeus/values.yaml'
-      - 'charts/antaeus/Chart.yaml'
-      - 'charts/antaeus/templates/**.yaml'
+      - 'charts/**/values.yaml'
+      - 'charts/**/Chart.yaml'
+      - 'charts/**/templates/**.yaml'
 
 jobs:
   kind:

@@ -1,4 +1,4 @@
-name: Matrix Testing
+name: Kuberenetes Matrix Testing
 on:
       workflow_dispatch:
       workflow_run:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8s_version: [v1.22.8-k3s1,latest]
+        k8s_version: [v1.22.8-k3s1]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,16 +28,9 @@ jobs:
           kubectl apply -f manifests/antaeus-ingress.yaml
           # Deploy Test SVC
           export IPA=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
-          #kubectl get ing -n payments -oyaml antaeus-ingress
           kubectl apply -f manifests/antaeus-test-service.yaml
-          #sleep 60
-          #kubectl get ing -n payments -oyaml antaeus-ingress
           echo "$IPA antaeus.local" | sudo tee -a /etc/hosts
-          #curl -I -s http://antaeus.local/rest/health && true
-          curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/health && true
-          curl -I -s -X GET -H "Host: antaeus.local" http://$IPA:8000/rest/v1/invoices && true
           # Run Tests
-          kubectl patch svc antaeus-test-service -n payments -p '{"spec":{"externalTrafficPolicy":"Local"}}'
           ./k8s-test.sh
 
 
