@@ -1,52 +1,59 @@
 ---
 name: 'Helm Deploy Pull Request'
 on:
-  pull_request:
-    types: [labeled]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Lint and Test antaeus Chart"]
+    types:
+      - completed
 
 jobs:
   deploy-pr:
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
-    if: ${{ github.event.label.name == 'deploy' }}
+    if: {{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Checkout
+      -
+        name: Checkout
         uses: actions/checkout@v2
-
-      - name: Login to DockerHub
+      -
+        name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push pleo-antaeus
+      -
+        name: Build and push pleo-antaeus
         uses: docker/build-push-action@v2
         with:
           context: antaeus
           push: true
           tags: dfroberg/pleo-antaeus:pr-${{ github.event.pull_request.number }}
-      - name: Build and push pleo-payment
+      -
+        name: Build and push pleo-payment
         uses: docker/build-push-action@v2
         with:
           context: payment
           push: true
           tags: dfroberg/pleo-payment:pr-${{ github.event.pull_request.number }}
-
-      - name: Create kube config
+      -
+        name: Create kube config
         run: |
           mkdir -p $HOME/.kube/
           echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
-      - name: Set up Helm
+      -
+        name: Set up Helm
         uses: azure/setup-helm@v1
         with:
           version: v3.8.1
-
-      - name: Lint helm charts
+      -
+        name: Lint helm charts
         run: helm lint ./charts/antaeus/
 
-      - name: Install Helm Chart
-        working-directory: env/helm
+      -
+        name: Install Helm Chart
         run: |
           helm upgrade pr-${{ github.event.pull_request.number }} antaeus/antaeus \
             --install \
@@ -54,17 +61,18 @@ jobs:
             --create-namespace \
             --wait \
             --set antaeus.image.tag=pr-${{ github.event.pull_request.number }} \
-            --set antaeus.testService.enabled=true
+            --set antaeus.testService.enabled=true \
             --set antaeus.ingress.ingressClassName="traefik" \
             --set antaeus.ingress.domain.base=${{ secrets.HELM_DOMAIN }} \
             --set antaeus.ingress.domain.prefix=pr-${{ github.event.pull_request.number }} \
             --set payment.image.tag=pr-${{ github.event.pull_request.number }} \
             --set payment.image.networkPolicy.enabled=true
-      - name: Install Helm Chart
-        working-directory: env/helm
+      -
+        name: Test Helm Chart
         run: |
           helm test pr-${{ github.event.pull_request.number }}
-      - name: Post comment to Pull Request
+      -
+        name: Post comment to Pull Request
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
