@@ -79,5 +79,25 @@ spec:
             fi
             echo -e "  ✔ Done"
           done
+          echo -e "► Testing API Endpoints again:"
+          for p in $TEST_PATHS
+          do
+            TEST_URL="http://${TEST_HOST}/${p}"
+            echo -e -n "► Testing ${TEST_URL} ..."
+            HTTP_STATUS=""
+            HTTP_STATUS=$(curl -k -L -X GET -q --max-time 5 -s -w '%{http_code}' -o ${TMPF} ${TEST_URL})
+            CONTENT=$(< ${TMPF})
+            if [ $HTTP_STATUS -ne 200 ]
+            then
+                echo -e " X Failed [$HTTP_STATUS]"
+                echo -e "  Got: $CONTENT"
+                echo -e "  Antaeus service is quite slow to build ~1 minute or something is really wrong, check and try again."
+                exit 1
+            else
+                echo -e " ✔ Passed [$HTTP_STATUS]"
+                echo -e "  ---\n  $CONTENT\n  ---"
+            fi
+            echo -e "  ✔ Done"
+          done
           echo -e "✔ All Tests Done"
   restartPolicy: Never

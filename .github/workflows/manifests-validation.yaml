@@ -2,9 +2,6 @@ name: Manifest Validation
 
 on:
   pull_request:
-    paths:
-      - 'manifests/**/*'
-  push:
     branches:
       - 'master'
     paths:
